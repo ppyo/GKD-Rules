@@ -1,29 +1,37 @@
 {
-  id: 'com.tencent.mtt',
-  name: 'QQ浏览器小说广告屏蔽',
-  groups: [
+  id: 10086,                    // 必须填写，整数，不能和其他订阅重复
+  name: "QQ浏览器小说广告屏蔽",
+  version: 1,                   // 必须填写，每次更新递增
+  author: "ppyo",               // 选填
+  supportUri: "https://gitee.com/ppyo/gkd-rules",   // 选填
+  apps: [
     {
-      key: 1,
-      name: '三步状态机屏蔽小说页广告',
-      desc: '判断章节标题和弹窗状态，防止重复点击循环',
-      rules: [
+      id: "com.tencent.mtt",
+      name: "QQ浏览器",
+      groups: [
         {
-          fastQuery: true,
-          activityIds: ['com.tencent.mtt.MainActivity'],
-          matches: ['@[desc="广告"]'],
-          pre: ['[desc~="第[0-9一二三四五六七八九十百千万]+章"]', '![desc="屏蔽此广告"]', '![desc="直接关闭"]']
-        },
-        {
-          fastQuery: true,
-          activityIds: ['com.tencent.mtt.MainActivity'],
-          matches: ['@[desc="屏蔽此广告"]'],
-          pre: ['[desc~="第[0-9一二三四五六七八九十百千万]+章"]', '[desc="屏蔽此广告"]', '![desc="直接关闭"]']
-        },
-        {
-          fastQuery: true,
-          activityIds: ['com.tencent.mtt.MainActivity'],
-          matches: ['@[desc="直接关闭"]'],
-          pre: ['[desc~="第[0-9一二三四五六七八九十百千万]+章"]', '[desc="直接关闭"]']
+          key: 1,
+          name: "三步状态机屏蔽小说页广告",
+          rules: [
+            {
+              fastQuery: true,
+              activityIds: ["com.tencent.mtt.MainActivity"],
+              matches: ["@[desc=\"广告\"]"],
+              pre: ["[desc~=\"第[0-9一二三四五六七八九十百千万]+章\"]", "![desc=\"屏蔽此广告\"]", "![desc=\"直接关闭\"]"]
+            },
+            {
+              fastQuery: true,
+              activityIds: ["com.tencent.mtt.MainActivity"],
+              matches: ["@[desc=\"屏蔽此广告\"]"],
+              pre: ["[desc~=\"第[0-9一二三四五六七八九十百千万]+章\"]", "[desc=\"屏蔽此广告\"]", "![desc=\"直接关闭\"]"]
+            },
+            {
+              fastQuery: true,
+              activityIds: ["com.tencent.mtt.MainActivity"],
+              matches: ["@[desc=\"直接关闭\"]"],
+              pre: ["[desc~=\"第[0-9一二三四五六七八九十百千万]+章\"]", "[desc=\"直接关闭\"]"]
+            }
+          ]
         }
       ]
     }
