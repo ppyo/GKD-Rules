@@ -1,7 +1,7 @@
 {
   id: 10086,                    // 必填，唯一的正整数标识，不能为负数或0[citation:1][citation:7]
   name: "QQ浏览器小说广告屏蔽",
-  version: 3,                   // 必填，版本号，每次更新必须递增[citation:3][citation:8]
+  version: 4,                   // 必填，版本号，每次更新必须递增[citation:3][citation:8]
   author: "ppyo",
   updateUrl: "https://gitee.com/ppyo/gkd-rules/raw/master/qqbrowser.json5", // 必填，指向完整文件
   checkUpdateUrl: "https://gitee.com/ppyo/gkd-rules/raw/master/qqbrowser.json5",
@@ -20,21 +20,24 @@
           fastQuery: true,
           activityIds: 'com.tencent.mtt.MainActivity',
           pre: '[desc~="第[0-9一二三四五六七八九十百千万]+章"] && ! [desc="屏蔽此广告"] && ! [desc="直接关闭"]',
-          matches: '@[desc="广告"]'
+          matches: '@[desc="广告"]',
+          delay: 800
         },
         {
           // 第二步：仅当“有屏蔽此广告弹窗”且“还没有直接关闭弹窗”时，才点击屏蔽此广告
           fastQuery: true,
           activityIds: 'com.tencent.mtt.MainActivity',
           pre: '[desc~="第[0-9一二三四五六七八九十百千万]+章"] && [desc="屏蔽此广告"] && ! [desc="直接关闭"]',
-          matches: '@[desc="屏蔽此广告"]'
+          matches: '@[desc="屏蔽此广告"]',
+              delay: 800
         },
         {
           // 第三步：仅当出现“直接关闭”弹窗时，点击直接关闭（点击后弹窗消失，锁自动解开）
           fastQuery: true,
           activityIds: 'com.tencent.mtt.MainActivity',
           pre: '[desc~="第[0-9一二三四五六七八九十百千万]+章"] && [desc="直接关闭"]',
-          matches: '@[desc="直接关闭"]'
+          matches: '@[desc="直接关闭"]',
+              delay: 1200
              }
           ]
         }
