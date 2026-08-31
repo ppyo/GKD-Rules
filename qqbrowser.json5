@@ -1,9 +1,10 @@
 {
-  id: 10086,                    // 必须填写，整数，不能和其他订阅重复
+  id: 10086,                    // 必填，唯一的正整数标识，不能为负数或0[citation:1][citation:7]
   name: "QQ浏览器小说广告屏蔽",
-  version: 1,                   // 必须填写，每次更新递增
-  author: "ppyo",               // 选填
-  supportUri: "https://gitee.com/ppyo/gkd-rules",   // 选填
+  version: 2,                   // 必填，版本号，每次更新必须递增[citation:3][citation:8]
+  author: "ppyo",
+  updateUrl: "https://gitee.com/ppyo/gkd-rules/raw/master/qqbrowser.json5", // 必填，指向完整文件
+  checkUpdateUrl: "https://gitee.com/ppyo/gkd-rules/raw/master/qqbrowser.json5",
   apps: [
     {
       id: "com.tencent.mtt",
@@ -12,24 +13,28 @@
         {
           key: 1,
           name: "三步状态机屏蔽小说页广告",
+          desc: "通过判断是否存在上层弹窗，形成状态锁，精准杜绝重复点击和循环",
           rules: [
             {
+              // 第一步：仅当“没有屏蔽此广告弹窗”、“没有直接关闭弹窗”时，才点击广告
               fastQuery: true,
-              activityIds: ["com.tencent.mtt.MainActivity"],
-              matches: ["@[desc=\"广告\"]"],
-              pre: ["[desc~=\"第[0-9一二三四五六七八九十百千万]+章\"]", "![desc=\"屏蔽此广告\"]", "![desc=\"直接关闭\"]"]
+              activityIds: "com.tencent.mtt.MainActivity",
+              pre: '[desc~="第[0-9一二三四五六七八九十百千万]+章"] && ! [desc="屏蔽此广告"] && ! [desc="直接关闭"]',
+              matches: '@[desc="广告"]'
             },
             {
+              // 第二步：仅当“有屏蔽此广告弹窗”且“还没有直接关闭弹窗”时，才点击屏蔽此广告
               fastQuery: true,
-              activityIds: ["com.tencent.mtt.MainActivity"],
-              matches: ["@[desc=\"屏蔽此广告\"]"],
-              pre: ["[desc~=\"第[0-9一二三四五六七八九十百千万]+章\"]", "[desc=\"屏蔽此广告\"]", "![desc=\"直接关闭\"]"]
+              activityIds: "com.tencent.mtt.MainActivity",
+              pre: '[desc~="第[0-9一二三四五六七八九十百千万]+章"] && [desc="屏蔽此广告"] && ! [desc="直接关闭"]',
+              matches: '@[desc="屏蔽此广告"]'
             },
             {
+              // 第三步：仅当出现“直接关闭”弹窗时，点击直接关闭（点击后弹窗消失，锁自动解开）
               fastQuery: true,
-              activityIds: ["com.tencent.mtt.MainActivity"],
-              matches: ["@[desc=\"直接关闭\"]"],
-              pre: ["[desc~=\"第[0-9一二三四五六七八九十百千万]+章\"]", "[desc=\"直接关闭\"]"]
+              activityIds: "com.tencent.mtt.MainActivity",
+              pre: '[desc~="第[0-9一二三四五六七八九十百千万]+章"] && [desc="直接关闭"]',
+              matches: '@[desc="直接关闭"]'
             }
           ]
         }
